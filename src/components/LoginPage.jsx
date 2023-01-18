@@ -1,15 +1,20 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
+import { useAuth } from "@hooks/useAuth";
 
 export default function LoginPage() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const auth = useAuth();
   const submitHandler = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    auth.signIn(email, password).catch(() => {
+      auth.setError(true);
+    });
   };
 
   return (
@@ -102,6 +107,14 @@ export default function LoginPage() {
                 Sign in
               </button>
             </div>
+            {auth.error && (
+              <div
+                class="bg-red-100 rounded-lg py-5 px-6 text-base text-red-700 mb-4"
+                role="alert"
+              >
+                Error: User or Password are incorrect
+              </div>
+            )}
           </form>
         </div>
       </div>
