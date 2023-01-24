@@ -109,7 +109,7 @@ export default function LoginPage() {
             </div>
             {auth.error && (
               <div
-                class="bg-red-100 rounded-lg py-5 px-6 text-base text-red-700 mb-4"
+                className="bg-red-100 rounded-lg py-5 px-6 text-base text-red-700 mb-4"
                 role="alert"
               >
                 Error: User or Password are incorrect
