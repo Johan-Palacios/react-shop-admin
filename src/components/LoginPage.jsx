@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
@@ -8,13 +9,17 @@ export default function LoginPage() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const auth = useAuth();
+  const router = useRouter();
   const submitHandler = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    auth.signIn(email, password).catch(() => {
-      auth.setError(true);
-    });
+    auth
+      .signIn(email, password)
+      .then(() => router.push("/dashboard"))
+      .catch(() => {
+        auth.setError(true);
+      });
   };
 
   return (
@@ -86,7 +91,7 @@ export default function LoginPage() {
 
               <div className="text-sm">
                 <Link
-                  href="#"
+                  href="/"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Forgot your password?

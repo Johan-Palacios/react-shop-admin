@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -33,8 +34,9 @@ export default function Home() {
               >
                 <div className="flex flex-shrink-0 flex-grow items-center lg:flex-grow-0">
                   <div className="flex w-full items-center justify-between md:w-auto">
-                    <a href="/login">
+                    <Link href="/login">
                       <span className="sr-only">Your Company</span>
+                      {/*eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         alt="Your Company"
                         className="h-8 w-auto sm:h-10"
@@ -42,7 +44,7 @@ export default function Home() {
                         width={300}
                         height={300}
                       />
-                    </a>
+                    </Link>
                     <div className="-mr-2 flex items-center md:hidden">
                       <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                         <span className="sr-only">Open main menu</span>
@@ -61,12 +63,12 @@ export default function Home() {
                       {item.name}
                     </a>
                   ))}
-                  <a
+                  <Link
                     href="/login"
                     className="font-medium text-indigo-600 hover:text-indigo-500"
                   >
                     Log in
-                  </a>
+                  </Link>
                 </div>
               </nav>
             </div>
@@ -113,12 +115,12 @@ export default function Home() {
                       </a>
                     ))}
                   </div>
-                  <a
+                  <Link
                     href="/login"
                     className="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-indigo-600 hover:bg-gray-100"
                   >
                     Log in
-                  </a>
+                  </Link>
                 </div>
               </Popover.Panel>
             </Transition>
@@ -139,20 +141,20 @@ export default function Home() {
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
-                  <a
+                  <Link
                     href="/login"
                     className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
                   >
                     Get started
-                  </a>
+                  </Link>
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <a
+                  <Link
                     href="/login"
                     className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-100 px-8 py-3 text-base font-medium text-indigo-700 hover:bg-indigo-200 md:py-4 md:px-10 md:text-lg"
                   >
                     Live demo
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

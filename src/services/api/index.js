@@ -7,25 +7,23 @@ const endPoints = {
     profile: `${API}/api/${VERSION}/auth/profile`,
   },
   products: {
-    getProduct: (id) => `${API}/api/${VERSION}/products/${id}`,
-    putProducts: (id) => `${API}/api/${VERSION}/products/${id}`,
-    deleteProducts: (id) => `${API}/api/${VERSION}/products/${id}`,
-  },
-  users: {
-    getUsers: `${API}/api/${VERSION}/users`,
-    postUsers: `${API}/api/${VERSION}/users`,
+    getProduct: (id) => `${API}/api/${VERSION}/products/${id}/`,
+    allProducts: `${API}/api/${VERSION}/products/`,
+    getProducts: (limit, offset) =>
+      `${API}/api/${VERSION}/products?limit=${limit}&offset=${offset}`,
+    addProducts: `${API}/api/${VERSION}/products`,
+    updateProducts: (id) => `${API}/api/${VERSION}/products/${id}/`,
+    deleteProduct: (id) => `${API}/api/${VERSION}/products/${id}/`,
   },
   categories: {
-    getCategories: `${API}/api/${VERSION}/categories`,
-    postCategories: `${API}/api/${VERSION}/categories`,
-    getCategoriesProduct: (id) =>
-      `${API}/api/${VERSION}/categories/${id}/products`,
-    putCategories: (id) => `${API}/api/${VERSION}/categories/${id}`,
+    getCategoriesList: `${API}/api/${VERSION}/categories/`,
+    addCategory: `${API}/api/${VERSION}/categories/`,
+    getCategoryItems: (id) =>
+      `${API}/api/${VERSION}/categories/${id}/products/`,
+    updateCategory: (id) => `${API}/api/${VERSION}/categories/${id}/`,
   },
   files: {
-    postFiles: `${API}/api/${VERSION}/files/upload`,
-    getFiles: (fileName) => `${API}/api/${VERSION}/${fileName}`,
+    addImage: `${API}/api/${VERSION}/files/upload/`,
   },
 };
-
 export default endPoints;
