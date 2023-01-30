@@ -1,42 +1,34 @@
+import { Fragment, useState } from "react";
 import Image from "next/image";
-import useFetch from "@hooks/useFetch";
-import endPoints from "@services/api";
-import { useState } from "react";
-import Paginate from "@components/Paginate";
-import { Chart } from "@common/Chart";
+import { CheckIcon } from "@heroicons/react/24/solid";
+import Modal from "@common/Modal";
+import FormProduct from "@components/FormProduct";
 
-const PRODUCT_LIMIT = 5;
+export default function products() {
+  const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState([]);
 
-export default function Dashboard() {
-  const [offsetProducts, setOffsetProducts] = useState(0);
-  const products = useFetch(
-    endPoints.products.getProducts(PRODUCT_LIMIT, offsetProducts),
-    offsetProducts
-  );
-  const categoryName = products?.map((product) => product.category);
-  const categoryCount = categoryName.map((category) => category.name);
-  const countOccurences = (arr) =>
-    arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
-  const totalProducts = useFetch(endPoints.products.getProducts(0, 0)).length;
-  const data = {
-    datasets: [
-      {
-        label: "Categories",
-        data: countOccurences(categoryCount),
-        borderWidth: 2,
-        backgroundColor: [
-          "#ffbb11",
-          "#c0c0c0",
-          "#50af95",
-          "#f3ba2f",
-          "#2a71d0",
-        ],
-      },
-    ],
-  };
   return (
     <>
-      <Chart className="mb-8 mt-2" chartData={data}></Chart>
+      <div className="lg:flex lg:items-center lg:justify-between mb-8 mt-4">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+            List of Products
+          </h2>
+        </div>
+        <div className="mt-5 flex lg:mt-0 lg:ml-4">
+          <span className="sm:ml-3">
+            <button
+              type="button"
+              className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              onClick={() => setOpen(true)}
+            >
+              <CheckIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+              Add Product
+            </button>
+          </span>
+        </div>
+      </div>
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -75,14 +67,14 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {totalProducts > 0 && (
-                    <Paginate
-                      totalItems={totalProducts}
-                      itemsPerPage={PRODUCT_LIMIT}
-                      setOffset={setOffsetProducts}
-                      neighbours={3}
-                    ></Paginate>
-                  )}
+                  {/* {totalProducts > 0 && ( */}
+                  {/*   <Paginate */}
+                  {/*     totalItems={totalProducts} */}
+                  {/*     itemsPerPage={PRODUCT_LIMIT} */}
+                  {/*     setOffset={setOffsetProducts} */}
+                  {/*     neighbours={3} */}
+                  {/*   ></Paginate> */}
+                  {/* )} */}
 
                   {products.map((product) => (
                     <tr key={`Product-item-${product.id}`}>
@@ -140,6 +132,9 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        <Modal open={open} setOpen={setOpen}>
+          <FormProduct></FormProduct>
+        </Modal>
       </div>
     </>
   );
