@@ -26,4 +26,5 @@ const endPoints = {
     addImage: `${API}/api/${VERSION}/files/upload/`,
   },
 };
+
 export default endPoints;
