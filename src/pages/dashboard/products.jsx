@@ -1,15 +1,52 @@
-import { Fragment, useState } from "react";
-import Image from "next/image";
-import { CheckIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
+import { CheckIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import Modal from "@common/Modal";
 import FormProduct from "@components/FormProduct";
+import axios from "axios";
+import endPoints from "@services/api";
+import Alert from "@common/Alert";
+import useAlert from "@hooks/useAlert";
+import { deleteProduct } from "@services/api/product";
 
-export default function products() {
+export default function Products() {
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
+  const { alert, setAlert, toggleAlert } = useAlert();
+  const handleClose = (id) => {
+    deleteProduct(id)
+      .then(() => {
+        setAlert({
+          active: true,
+          message: "Delete product successfully",
+          type: "success",
+          autoClose: true,
+        });
+      })
+      .catch((error) => {
+        setAlert({
+          active: true,
+          message: error.message,
+          type: "error",
+          autoClose: true,
+        });
+      });
+  };
+
+  useEffect(() => {
+    async function getProducts() {
+      const reponse = await axios.get(endPoints.products.allProducts);
+      setProducts(reponse.data);
+    }
+    try {
+      getProducts();
+    } catch (error) {
+      // empty
+    }
+  }, [alert]);
 
   return (
     <>
+      <Alert alert={alert} handleClose={toggleAlert} />
       <div className="lg:flex lg:items-center lg:justify-between mb-8 mt-4">
         <div className="min-w-0 flex-1">
           <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -67,21 +104,13 @@ export default function products() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {/* {totalProducts > 0 && ( */}
-                  {/*   <Paginate */}
-                  {/*     totalItems={totalProducts} */}
-                  {/*     itemsPerPage={PRODUCT_LIMIT} */}
-                  {/*     setOffset={setOffsetProducts} */}
-                  {/*     neighbours={3} */}
-                  {/*   ></Paginate> */}
-                  {/* )} */}
-
                   {products.map((product) => (
                     <tr key={`Product-item-${product.id}`}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
-                            <Image
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
                               className="h-10 w-10 rounded-full"
                               src={product.images[0]}
                               width={100}
@@ -118,12 +147,11 @@ export default function products() {
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          href="/edit"
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Delete
-                        </a>
+                        <XCircleIcon
+                          className="flex-shrink-0 h-6 w-6 text-gray-400 cursor-pointer"
+                          aria-hidden="true"
+                          onClick={() => handleClose(product.id)}
+                        ></XCircleIcon>
                       </td>
                     </tr>
                   ))}
@@ -133,7 +161,7 @@ export default function products() {
           </div>
         </div>
         <Modal open={open} setOpen={setOpen}>
-          <FormProduct></FormProduct>
+          <FormProduct setOpen={setOpen} setAlert={setAlert}></FormProduct>
         </Modal>
       </div>
     </>

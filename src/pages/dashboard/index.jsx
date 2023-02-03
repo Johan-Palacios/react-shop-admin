@@ -1,4 +1,3 @@
-import Image from "next/image";
 import useFetch from "@hooks/useFetch";
 import endPoints from "@services/api";
 import { useState } from "react";
@@ -89,7 +88,8 @@ export default function Dashboard() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
-                            <Image
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
                               className="h-10 w-10 rounded-full"
                               src={product.images[0]}
                               width={100}
