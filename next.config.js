@@ -7,6 +7,9 @@ const nextConfig = {
       "images.unsplash.com",
       "api.lorem.space",
       "placeimg.com",
+      "api.escuelajs.co",
+      "loremflickr.com",
+      "google.pl",
     ],
   },
 };
