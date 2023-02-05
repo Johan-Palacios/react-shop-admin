@@ -11,6 +11,7 @@ export default function Edit() {
   const router = useRouter();
   const [error, setError] = useState(false);
   const { alert, setAlert, toggleAlert } = useAlert();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const { id } = router.query;
@@ -38,5 +39,10 @@ export default function Edit() {
   if (error) {
     return <Alert alert={alert} handleClose={toggleAlert} />;
   }
-  return <FormProduct product={product} />;
+  return (
+    <>
+      <Alert alert={alert} handleClose={toggleAlert} />
+      <FormProduct product={product} setAlert={setAlert} setOpen={setOpen} />
+    </>
+  );
 }
