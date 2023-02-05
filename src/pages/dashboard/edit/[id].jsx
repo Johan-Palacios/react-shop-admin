@@ -11,6 +11,7 @@ export default function Edit() {
   const router = useRouter();
   const [error, setError] = useState(false);
   const { alert, setAlert, toggleAlert } = useAlert();
+  // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
