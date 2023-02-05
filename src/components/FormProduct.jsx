@@ -1,10 +1,13 @@
 import { useRef } from "react";
-import { addProduct } from "@services/api/product";
+import { addProduct, updateProduct } from "@services/api/product";
+import { useRouter } from "next/router";
 
 export default function FormProduct({ setOpen, setAlert, product }) {
   const formRef = useRef(null);
+  const router = useRouter();
   const handleSubmit = (event) => {
     event.preventDefault();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const formData = new FormData(formRef.current);
     const data = {
       title: formData.get("title"),
@@ -13,24 +16,52 @@ export default function FormProduct({ setOpen, setAlert, product }) {
       categoryId: parseInt(formData.get("category")),
       images: [formData.get("images").name],
     };
-    addProduct(data)
-      .then(() => {
-        setAlert({
-          active: true,
-          message: "Product added successfully",
-          type: "success",
-          autoClose: false,
+    const verifyData = () => {
+      data.images.includes("") && delete data.images;
+    };
+
+    if (product) {
+      verifyData();
+      updateProduct(product.id, data)
+        .then(() => {
+          setAlert({
+            active: true,
+            message: "Product updated successfully",
+            type: "success",
+            autoClose: false,
+          });
+          setTimeout(() => {
+            router.push("/dashboard/products");
+          }, 2000);
+        })
+        .catch((error) => {
+          setAlert({
+            active: true,
+            message: error.message,
+            type: "error",
+            autoClose: false,
+          });
         });
-        setOpen(false);
-      })
-      .catch((error) => {
-        setAlert({
-          active: true,
-          message: error.message,
-          type: "error",
-          autoClose: false,
+    } else {
+      addProduct(data)
+        .then(() => {
+          setAlert({
+            active: true,
+            message: "Product added successfully",
+            type: "success",
+            autoClose: false,
+          });
+          setOpen(false);
+        })
+        .catch((error) => {
+          setAlert({
+            active: true,
+            message: error.message,
+            type: "error",
+            autoClose: false,
+          });
         });
-      });
+    }
   };
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
